@@ -4,7 +4,7 @@ import { EditAdministratorDto } from "src/dtos/administrator/edit.administrator.
 import { Administrator } from "src/entities/administrator.entity";
 import { AdministratorService } from "src/services/administrator/administrator.service";
 
-@Controller('api/daministrator')
+@Controller('api/administrator')
 export class AdministratorController{
     constructor(
         private administratorService: AdministratorService
