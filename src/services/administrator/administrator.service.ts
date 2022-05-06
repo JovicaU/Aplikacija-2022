@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { create } from 'domain';
+import { AddAdministratorDto } from 'src/dtos/administrator/add.administrator.dto';
+import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.dto';
 import { Administrator } from 'src/entities/administrator.entity';
 import { Repository } from 'typeorm';
 
@@ -19,4 +22,34 @@ export class AdministratorService {
         return this.administrator.findOne(id);
 
     }
+    add(data: AddAdministratorDto){
+        //DTO ->      Model
+        //username -> username
+        //password -> passwordHash!  Strvar Izbora! SHA512! 
+        const crypto = require('crypto');
+        const passwordHash = crypto.createHash('sha512');
+        passwordHash.update(data.password);
+        const passwordHashString = passwordHash.digest('hex').topUpperCase();
+
+        let newAdmin: Administrator = new Administrator();
+        newAdmin.username = data.username;
+        newAdmin.passwordHash = passwordHashString;
+
+        return this.administrator.save(newAdmin);
+    }
+
+    async editById(id: unknown, data: EditAdministratorDto): Promise<Administrator>{
+        let admin: Administrator = await this.administrator.findOne(id); 
+
+        const crypto = require('crypto');
+        const passwordHash = crypto.createHash('sha512');
+        passwordHash.update(data.password);
+        const passwordHashString = passwordHash.digest('hex').topUpperCase();
+
+        admin.passwordHash = passwordHashString;
+        return this.administrator.save(admin);
+
+    }
+
+
 }

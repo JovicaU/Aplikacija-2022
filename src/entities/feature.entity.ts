@@ -17,10 +17,10 @@ export class Feature {
   @PrimaryGeneratedColumn({ type: "int", name: "feature_id", unsigned: true })
   featureId: number;
 
-  @Column( {type: "varchar",  length: 32)
+  @Column( {type: "varchar",  length: 32})
   name: string;
 
-  @Column( {type: "int", name: "category_id", unsigned: true)
+  @Column( {type: "int", name: "category_id", unsigned: true})
   categoryId: number;
 
   @OneToMany(() => ArticleFeature, (articleFeature) => articleFeature.feature)
