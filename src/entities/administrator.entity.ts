@@ -1,7 +1,7 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Index("uq_administrator_username", ["username"], { unique: true })
-@Entity("administrator")
+@Entity("administrator", {schema: "aplikacija"})
 export class Administrator {
   @PrimaryGeneratedColumn({
     type: "int",
@@ -11,9 +11,7 @@ export class Administrator {
   administratorId: number;
 
   @Column({
-        type: "varchar",
-
-    name: "username",
+    type: "varchar",
     unique: true,
     length: 32,
   })

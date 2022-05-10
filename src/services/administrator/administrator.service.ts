@@ -17,9 +17,8 @@ export class AdministratorService {
         return this.administrator.find();
     }
 
-    getById(id: unknown): Promise<Administrator> { //ne znamo da li je ovdje ispravno unknown prvobitno number
-
-        return this.administrator.findOne(id);
+    getById(administratorId: number): Promise<Administrator> { //ne znamo da li je ovdje ispravno unknown prvobitno number
+        return this.administrator.findOne({where:{administratorId}});
 
     }
     add(data: AddAdministratorDto){
@@ -38,8 +37,8 @@ export class AdministratorService {
         return this.administrator.save(newAdmin);
     }
 
-    async editById(id: unknown, data: EditAdministratorDto): Promise<Administrator>{
-        let admin: Administrator = await this.administrator.findOne(id); 
+    async editById(administratorId: number, data: EditAdministratorDto): Promise<Administrator>{
+        let admin: Administrator = await this.administrator.findOne({where:{administratorId}}); 
 
         const crypto = require('crypto');
         const passwordHash = crypto.createHash('sha512');
