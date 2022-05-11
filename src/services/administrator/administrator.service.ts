@@ -4,6 +4,7 @@ import { create } from 'domain';
 import { AddAdministratorDto } from 'src/dtos/administrator/add.administrator.dto';
 import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.dto';
 import { Administrator } from 'src/entities/administrator.entity';
+import { ApiResponse } from 'src/misc/api.response.class';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -21,29 +22,41 @@ export class AdministratorService {
         return this.administrator.findOne({where:{administratorId}});
 
     }
-    add(data: AddAdministratorDto){
+    add(data: AddAdministratorDto): Promise<Administrator | ApiResponse >{
         //DTO ->      Model
         //username -> username
         //password -> passwordHash!  Strvar Izbora! SHA512! 
         const crypto = require('crypto');
         const passwordHash = crypto.createHash('sha512');
         passwordHash.update(data.password);
-        const passwordHashString = passwordHash.digest('hex').topUpperCase();
+        const passwordHashString = passwordHash.digest('hex').toUpperCase();
 
         let newAdmin: Administrator = new Administrator();
         newAdmin.username = data.username;
         newAdmin.passwordHash = passwordHashString;
 
-        return this.administrator.save(newAdmin);
+        return new Promise((resolve) =>{
+            this.administrator.save(newAdmin)
+            .then (data =>resolve(data))
+            .catch(error =>{
+                const response: ApiResponse = new ApiResponse("error", -1001);
+                resolve(response);
+            });
+        }) ;
     }
 
-    async editById(administratorId: number, data: EditAdministratorDto): Promise<Administrator>{
+    async editById(administratorId: number, data: EditAdministratorDto): Promise<Administrator | ApiResponse>{
         let admin: Administrator = await this.administrator.findOne({where:{administratorId}}); 
-
+        
+        if (admin === null){
+            return new Promise((resolve)=>{
+                resolve(new ApiResponse("error", -1002));
+            });
+        }
         const crypto = require('crypto');
         const passwordHash = crypto.createHash('sha512');
         passwordHash.update(data.password);
-        const passwordHashString = passwordHash.digest('hex').topUpperCase();
+        const passwordHashString = passwordHash.digest('hex').toUpperCase();
 
         admin.passwordHash = passwordHashString;
         return this.administrator.save(admin);
