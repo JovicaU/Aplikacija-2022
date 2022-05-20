@@ -1,5 +1,6 @@
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
+import { AddArticleDto } from "src/dtos/article/add.article.dto";
 import { Article } from "src/entities/article.entity";
 import { ArticleService } from "src/services/article/article.service";
 
@@ -38,4 +39,8 @@ import { ArticleService } from "src/services/article/article.service";
 export class ArticleController{
    
     constructor (public service: ArticleService){}
+@Post('createFull') // POST http://localhost:3000/api/article/createFull/
+    createFullArticle(@Body() data: AddArticleDto){
+        return this.service.createFullArticle(data);
+    }
 }
