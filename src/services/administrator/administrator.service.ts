@@ -19,7 +19,18 @@ export class AdministratorService {
         return this.administrator.find();
     }
 
-    getById(administratorId: number): Promise<Administrator> { //ne znamo da li je ovdje ispravno unknown prvobitno number
+    async getByUsername(usernameString: string):  Promise<Administrator | null> {
+             const admin = await this.administrator.findOne({where: {
+                 username : usernameString
+             }});
+             
+             if(admin){
+                 return admin;
+             }
+             return null;
+    }
+
+    getById(administratorId: number): Promise<Administrator> {
         return this.administrator.findOne({where:{administratorId}});
 
     }
