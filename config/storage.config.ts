@@ -1,4 +1,4 @@
 export const StorageConfig = {
     photosDestination : '../storage/photos/',
-    photoMaxFileSize : 1024 * 1024 * 3 // ubajtovima
+    photoMaxFileSize : 10//1024 * 1024 * 3 // ubajtovima
 };
