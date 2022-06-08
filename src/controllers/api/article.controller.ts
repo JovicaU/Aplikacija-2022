@@ -64,7 +64,7 @@ export class ArticleController{
     @UseInterceptors(
         FileInterceptor('photo', {
             storage: diskStorage({
-                destination: StorageConfig.photosDestination,
+                destination: StorageConfig.photo.destination,
                 filename:(req, file, callback) => {
 
                     let original: string = file.originalname;
@@ -112,7 +112,7 @@ export class ArticleController{
             },
             limits: {
                 files: 1,
-                fileSize : StorageConfig.photoMaxFileSize,
+                fileSize : StorageConfig.photo.maxSize,
             }
         })
     )
@@ -143,8 +143,8 @@ export class ArticleController{
                 return new ApiResponse('error', -4002, 'Bad file content type ! '); 
             }
           //  TODO: Save a resized file.
-          await this.createThumb(photo);
-          await this.createSmallImage(photo);
+          await this.createResizedImage(photo, StorageConfig.photo.resize.thumb);
+          await this.createResizedImage(photo, StorageConfig.photo.resize.small);
 
           
         const newPhoto: Photo = new  Photo();
@@ -158,44 +158,22 @@ export class ArticleController{
         return savedPhoto;
     }
 
-    async createThumb(photo){
-        const orginalFilePath = photo.path;
-        const fileName = photo.name;
-        const type = filetype(readFileSync(photo.path))[0]?.typename;
+async createResizedImage(photo, resizeSettings){
 
+       const orginalFilePath = photo.path;
+       const fileName = photo.name;
+       const type = filetype(readFileSync(photo.path))[0]?.typename;
 
-        const destinationFilePath = StorageConfig.photosDestination + "thumb/" + fileName + "." + type;
+       const destinationFilePath = StorageConfig.photo.destination + resizeSettings.directory + fileName + "." + type ;
 
-        await sharp(orginalFilePath).resize({
-            fit: 'cover',
-            width: StorageConfig.photoThumbSize.width,
-            height: StorageConfig.photoThumbSize.height
+       await sharp(orginalFilePath).resize({
+           fit: 'cover',
+           width: resizeSettings.width,
+           height: resizeSettings.height,
 
-        }).toFile(destinationFilePath);
+       }).toFile(destinationFilePath);
 
-    }
-        
-    async createSmallImage(photo){
-       // let fileType = await import('file-type');
-
-       // const fileTypeResult = await fileType.fileTypeFromFile(photo.path);
-        const orginalFilePath = photo.path;
-        const fileName = photo.name;
-        //const realMimeType = fileTypeResult.mime;
-        const type = filetype(readFileSync(photo.path))[0]?.typename;
-
-        const destinationFilePath = StorageConfig.photosDestination + "small/" + fileName + "." + type ;
-
-        await sharp(orginalFilePath).resize({
-            fit: 'cover',
-            width: StorageConfig.photoSmallSize.width,
-            height: StorageConfig.photoSmallSize.height,
-          //  mimeType: realMimeType
-
-        }).toFile(destinationFilePath);
-
-    }
-
+}
 
 
 }
