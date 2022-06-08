@@ -10,6 +10,12 @@ import { fileName } from "typeorm-model-generator/dist/src/NamingStrategy";
 import { PhotoService } from "src/services/photo/photo.service";
 import { Photo } from "src/entities/photo.entity";
 import { ApiResponse } from "src/misc/api.response.class";
+//import * as fileType from 'file-type';
+import filetype from 'magic-bytes.js'
+
+import * as fs from 'fs';
+import * as sharp from 'sharp';
+import { readFileSync } from "fs";
 
 @Controller('api/article')
 @Crud({
@@ -96,7 +102,7 @@ export class ArticleController{
                 //Check tipa sadrzaja: image/jpeg, image/png (mimetype)
 
                 if (!(file.mimetype.includes('jpeg') || file.mimetype.includes('png'))){
-                    req.fileFilterError = 'Bad file content ! ';
+                    req.fileFilterError = 'Bad file content type ! ';
                     callback(null, false);
 
                     return;
@@ -121,6 +127,26 @@ export class ArticleController{
             if(!photo){
                 return new ApiResponse('error', -4002, 'File not uploaded! '); 
             }
+            const type = filetype(readFileSync(photo.path))[0]?.typename;
+            //const fileType = await import('file-type');
+           // const fileTypeResult = await type.fileTypeFromFile(photo.path); // provjeriti dokumentaciju za ovu funkciju fileTypeFromFile mozda je samofrom file
+          
+            if(!type){
+               fs.unlinkSync(photo.path); // TODO: Obrisati taj fajl
+                return new ApiResponse('error', -4002, 'Cannot detect file type! '); 
+            }
+            //  TODO: Real mime type check.
+
+            const realMimeType = type;
+            if (!(realMimeType.includes('jpg') || realMimeType.includes('png'))){
+                // TODO: Obrisati taj fajl
+                return new ApiResponse('error', -4002, 'Bad file content type ! '); 
+            }
+          //  TODO: Save a resized file.
+          await this.createThumb(photo);
+          await this.createSmallImage(photo);
+
+          
         const newPhoto: Photo = new  Photo();
         newPhoto.articleId = articleId;
         newPhoto.imagePath = photo.filename;
@@ -131,6 +157,45 @@ export class ArticleController{
         }
         return savedPhoto;
     }
+
+    async createThumb(photo){
+        const orginalFilePath = photo.path;
+        const fileName = photo.name;
+        const type = filetype(readFileSync(photo.path))[0]?.typename;
+
+
+        const destinationFilePath = StorageConfig.photosDestination + "thumb/" + fileName + "." + type;
+
+        await sharp(orginalFilePath).resize({
+            fit: 'cover',
+            width: StorageConfig.photoThumbSize.width,
+            height: StorageConfig.photoThumbSize.height
+
+        }).toFile(destinationFilePath);
+
+    }
+        
+    async createSmallImage(photo){
+       // let fileType = await import('file-type');
+
+       // const fileTypeResult = await fileType.fileTypeFromFile(photo.path);
+        const orginalFilePath = photo.path;
+        const fileName = photo.name;
+        //const realMimeType = fileTypeResult.mime;
+        const type = filetype(readFileSync(photo.path))[0]?.typename;
+
+        const destinationFilePath = StorageConfig.photosDestination + "small/" + fileName + "." + type ;
+
+        await sharp(orginalFilePath).resize({
+            fit: 'cover',
+            width: StorageConfig.photoSmallSize.width,
+            height: StorageConfig.photoSmallSize.height,
+          //  mimeType: realMimeType
+
+        }).toFile(destinationFilePath);
+
+    }
+
 
 
 }
