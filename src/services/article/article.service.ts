@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { AddArticleDto } from "src/dtos/article/add.article.dto";
+import { EditArticleDto } from "src/dtos/article/edit.article.dto";
 import { ArticleFeature } from "src/entities/article-feature.entity";
 import { ArticlePrice } from "src/entities/article-price.entity";
 import { Article } from "src/entities/article.entity";
@@ -53,14 +54,78 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
         return await this.article.findOne({where:
         {articleId: savedArticle.articleId},
-            relations: {
-                category: true,
+            relations: [
+                "category",
+                "articleFeatures",
+                "features",
+                "articlePrices" 
+
+                /*category: true,
                 articleFeatures: true,
                 features: true,
-                articlePrices: true
-        }}
+                articlePrices: true*/
+        ]}
         );
         //return articleFinder;
    
     }
+async editFullArticle(articleId: number, data: EditArticleDto): Promise<Article | ApiResponse>{
+    const existingArticle: Article = await this.article.findOne(
+        {
+            where:{articleId},
+            relations: ['articlePrices', 'articleFeatures']
+        });
+    
+    if(!existingArticle){
+        return new ApiResponse('error', -5001, 'Article not found.');
+    }
+        existingArticle.name        = data.name;
+        existingArticle.categoryId  = data.categoryId;
+        existingArticle.excerpt     = data.excerpt;
+        existingArticle.description = data.description;
+        existingArticle.status      = data.status;
+        existingArticle.isPromoted  = data.isPromoted;
+
+        const savedArticle = await this.article.save(existingArticle);
+
+        if(!savedArticle){
+            return new ApiResponse('error', -5002, 'Could not save new article data.');
+        }
+
+        const newgPriceStrin: string = Number(data.price).toFixed(2);
+        const lastPrice = existingArticle.articlePrices[existingArticle.articlePrices.length - 1].price;
+        const lastPriceString: string = Number(lastPrice).toFixed(2);
+
+        if (newgPriceStrin !== lastPriceString){
+            const newArticlePrice = new ArticlePrice();
+            newArticlePrice.articleId = articleId;
+            newArticlePrice.price = data.price;
+
+            const savedArticlePrice = await this.articlePrice.save(newArticlePrice);
+            if(!savedArticlePrice){
+                return new ApiResponse('error', -5003, 'Could not save new article price.');
+            }
+        }
+        if(data.features !== null){
+            await this.articleFeature.remove(existingArticle.articleFeatures);
+        
+            for (let feature of data.features){
+                let newArticleFeature: ArticleFeature = new ArticleFeature();
+                newArticleFeature.articleId = articleId;
+                newArticleFeature.featureId = feature.featureId;
+                newArticleFeature.value = feature.value;
+    
+                await this.articleFeature.save(newArticleFeature);
+            }
+        }
+        return await this.article.findOne({where:
+            {articleId: articleId},
+                relations: [
+                    "category",
+                    "articleFeatures",
+                    "features",
+                    "articlePrices" 
+            ]}
+            );
+}
 }
