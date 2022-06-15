@@ -19,9 +19,9 @@ export class AdministratorService {
         return this.administrator.find();
     }
 
-    async getByUsername(usernameString: string):  Promise<Administrator | null> {
+    async getByUsername(username: string):  Promise<Administrator | null> {
              const admin = await this.administrator.findOne({where: {
-                 username : usernameString
+                 username : username
              }});
              
              if(admin){
