@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, SetMetadata, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put, SetMetadata, UseGuards } from "@nestjs/common";
 import { resolve } from "path";
 import { AddAdministratorDto } from "src/dtos/administrator/add.administrator.dto";
 import { EditAdministratorDto } from "src/dtos/administrator/edit.administrator.dto";
@@ -43,8 +43,8 @@ getAll(): Promise<Administrator[]> {
         
           
     }
-      //GET http://localhost:3000/api/administrator/
-    @Put()
+      //POST http://localhost:3000/api/administrator/
+    @Post()
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('administrator')
 
@@ -53,8 +53,8 @@ getAll(): Promise<Administrator[]> {
 
 }
 
-      //POST http://localhost:3000/api/administrator/4/
-      @Post(':id')
+      //PATCH http://localhost:3000/api/administrator/4/
+      @Patch(':id')
       @UseGuards(RoleCheckerGuard)
       @AllowToRoles('administrator')
 
