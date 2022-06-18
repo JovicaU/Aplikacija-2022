@@ -45,9 +45,16 @@ export class UserService extends TypeOrmCrudService<User>{
 
 
     }
+    /*
     async getById(id){
       return await this.user.findOne(id );
+    }*/
+    
+        async getById(userId: number): Promise<User>{
+      return await this.user.findOne({where: {userId: userId}} );
     }
+
+     
 
     async getByEmail(email: string):  Promise<User | null> {
       const user = await this.user.findOne({where: {
