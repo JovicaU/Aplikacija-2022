@@ -28,6 +28,7 @@ import { FeatureController } from './controllers/api/feature.controller';
 import { UserService } from './services/user/user.service';
 import { CartService } from './services/cart/cart.service';
 import { UserCartController } from './controllers/api/user.cart.controler';
+import { OrderService } from './services/order/order.service';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -83,6 +84,7 @@ import { UserCartController } from './controllers/api/user.cart.controler';
     FeatureService,
     UserService,
     CartService,
+    OrderService,
   ],
   exports:[
     AdministratorService,
