@@ -19,6 +19,7 @@ import { readFileSync } from "fs";
 import { EditArticleDto } from "src/dtos/article/edit.article.dto";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
 import { RoleCheckerGuard } from "src/misc/role.checker.guard";
+import { ArticleSearchDto } from "src/dtos/article/article.search.dto";
 
 @Controller('api/article')
 @Crud({
@@ -241,5 +242,10 @@ public async deletePhoto(
 
     }
 
-
+    @Post('search') // POST http://localhost:3000/api/article/search/
+    @UseGuards(RoleCheckerGuard)
+    @AllowToRoles('administrator', 'user')
+   async search(@Body() data: ArticleSearchDto): Promise<Article[]>{
+         return await this.service.search(data);
+    }
 }

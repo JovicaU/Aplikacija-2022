@@ -40,10 +40,10 @@ export class ArticlePrice {
 
   @Column( {
     type: "timestamp",
-    name: "sreated_at",
+    name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  sreatedAt: Date;
+  createdAt: Date;
 
   @ManyToOne(() => Article, (article) => article.articlePrices, {
     onDelete: "RESTRICT",

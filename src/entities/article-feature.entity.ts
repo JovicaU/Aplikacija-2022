@@ -34,8 +34,6 @@ export class ArticleFeature {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   @Validator.Length(1, 255)
-
-
   value: string;
 
   @ManyToOne(() => Article, (article) => article.articleFeatures, {
