@@ -619,6 +619,28 @@
 					"response": []
 				},
 				{
+					"name": "Get a many articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/article/2/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete a single article photo",
 					"request": {
 						"method": "DELETE",
@@ -894,6 +916,37 @@
 							"body": "{\"articleId\":2,\"name\":\"ACME HD11 1024GB\",\"categoryId\":2,\"excerpt\":\"Neki kratak opsis 2\",\"description\":\"Neki duzi tekst o proizvodu 2.\",\"status\":\"visible\",\"isPromoted\":1,\"createdAt\":\"2022-05-17T12:41:55.000Z\",\"category\":{\"categoryId\":2,\"name\":\"Kucna elektronika\",\"imagePath\":\"C:/Users/ubipa/OneDrive/Desktop/assets/komp/home.jpg\",\"parentCategoryId\":null},\"articleFeatures\":[{\"articleFeatureId\":6,\"articleId\":2,\"featureId\":1,\"value\":\"1024GB\"},{\"articleFeatureId\":7,\"articleId\":2,\"featureId\":2,\"value\":\"SATA 3.0\"}],\"features\":[{\"featureId\":1,\"name\":\"Kapacitet\",\"categoryId\":5},{\"featureId\":2,\"name\":\"Tip\",\"categoryId\":5}],\"articlePrices\":[{\"articlePriceId\":3,\"articleId\":2,\"price\":\"56.89\",\"sreatedAt\":\"2022-05-17T12:41:55.000Z\"},{\"articlePriceId\":4,\"articleId\":2,\"price\":\"57.11\",\"sreatedAt\":\"2022-06-09T14:42:15.000Z\"}]}"
 						}
 					]
+				},
+				{
+					"name": "Search articles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": 5,\r\n    \"keywords\": \"GB\",\r\n    \"priceMin\": 43,\r\n    \"priceMax\": 57,\r\n    \"features\": [\r\n        {\r\n            \"featureId\": 2,\r\n            \"value\": [\"SATA 3.0\", \"SATA 3.1\"]\r\n        }\r\n    ]\r\n    \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/article/search/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"search",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -1639,6 +1692,148 @@
 							"body": "{\"featureId\":4,\"name\":\"Napon\",\"categoryId\":2,\"category\":{\"categoryId\":2,\"name\":\"Kucna elektronika\",\"imagePath\":\"C:/Users/ubipa/OneDrive/Desktop/assets/komp/home.jpg\",\"parentCategoryId\":null}}"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Cart and order",
+			"item": [
+				{
+					"name": "Get current cart details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add article to the current cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\": 2,\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/addToCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								"addToCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change article quantity in the current cart",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\": 2,\r\n    \"quantity\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make an order for the current cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/makeOrder/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								"makeOrder",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1NjY3NTE4My43NzgsImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI5LjAiLCJpYXQiOjE2NTU0NjU1ODN9.IV8qnFf2DUaUZBjL8vHzPUvokTKvPzdHGGrLxOZLUTE",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
