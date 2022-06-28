@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Nasi fajlovi
 .env
+
+# Mail config
+/mail.config
