@@ -39,7 +39,6 @@ export class Order {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   @Validator.IsIn(["rejected", "accepted", "shipped", "pending"])
-
   status: "rejected" | "accepted" | "shipped" | "pending";
 
   @OneToOne(() => Cart, (cart) => cart.order, {
