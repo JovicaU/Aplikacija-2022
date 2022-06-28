@@ -38,4 +38,4 @@ lerna-debug.log*
 .env
 
 # Mail config
-\config
+config/mail.config.ts 
