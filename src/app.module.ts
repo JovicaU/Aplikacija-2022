@@ -33,6 +33,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
 import { MailConfig } from 'config/mail.config';
 import { OrderMailer } from './services/order/order.mailer.service';
 import { AdminOrderController } from './controllers/api/administrator.order.controller';
+import { UserToken } from './entities/user-token.entity';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { AdminOrderController } from './controllers/api/administrator.order.cont
         Order,
         Photo,
         User,
+        UserToken,
       ]
     }),
     TypeOrmModule.forFeature([
@@ -68,7 +70,8 @@ import { AdminOrderController } from './controllers/api/administrator.order.cont
       Feature,
       Order,
       Photo,
-      User,       
+      User,
+      UserToken,       
       
     ]),
     MailerModule.forRoot({

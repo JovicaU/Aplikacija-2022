@@ -164,7 +164,7 @@ async search(data: ArticleSearchDto): Promise<Article[]>{
 
         builder.andWhere('ap.price <= :max', {max: data.priceMax});
     }
-
+/*
     if(data.features && data.features.length > 0 ){
         for(const feature of data.features){
 
@@ -175,6 +175,27 @@ async search(data: ArticleSearchDto): Promise<Article[]>{
             });
 
         }
+    }
+    */
+    if (data.features && data.features.length > 0 ) {
+		for (const feature of data.features) {
+			const featureQueryData = {
+				fId: feature.featureId,
+			};
+
+			const names = [];
+
+			for (let i = 0; i < feature.values.length; i++) {
+				names.push(':fVal' + i);
+				featureQueryData['fVal' + i] = feature.values[i];
+			}
+
+			const namesQueryPart = names.join(', ');
+
+			for (const feature of data.features){
+				builder.andWhere('af.featureId = :fId AND af.value IN (' + namesQueryPart + ')', featureQueryData);
+			}
+		}
     }
     let orderBy = 'article.name';
     let orderDirection : 'ASC' | 'DESC' = 'ASC';
