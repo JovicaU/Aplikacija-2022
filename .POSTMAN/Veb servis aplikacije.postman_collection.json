@@ -624,7 +624,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/article/2/",
+							"raw": "http://localhost:3000/api/article/?filter=categoryId||$eq||5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -633,8 +633,13 @@
 							"path": [
 								"api",
 								"article",
-								"2",
 								""
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "categoryId||$eq||5"
+								}
 							]
 						}
 					},
@@ -924,7 +929,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"categoryId\": 5,\r\n    \"keywords\": \"GB\",\r\n    \"priceMin\": 43,\r\n    \"priceMax\": 57,\r\n    \"features\": [\r\n        {\r\n            \"featureId\": 2,\r\n            \"value\": [\"SATA 3.0\", \"SATA 3.1\"]\r\n        }\r\n    ]\r\n    \r\n\r\n}",
+							"raw": "{\r\n    \"categoryId\": 5,\r\n    \"keywords\": \"GB\",\r\n    \"priceMin\": 43,\r\n    \"priceMax\": 59,\r\n    \"features\": [\r\n        {\r\n            \"featureId\": 2,\r\n            \"values\": [\"SATA 3.0\", \"SATA 3.1\"]\r\n        }\r\n    ],\r\n    \"orderBy\": \"price\",\r\n    \"orderDirection\": \"ASC\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -949,6 +954,16 @@
 					"response": []
 				}
 			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1OTM3MDA2OS4xNiwiaXAiOiI6OjEiLCJ1YSI6IlBvc3RtYW5SdW50aW1lLzcuMjkuMCIsImlhdCI6MTY1NjY5MTY2OX0.2EvDqkt3a4NoPPh3LUkiIkfXu2O3FP7aBuPHyyTSsN8",
+						"type": "string"
+					}
+				]
+			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1271,7 +1286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"test@test.rs\",\r\n    \"password\": \"abcdefg2\",\r\n    \"forename\": \"Simo\",\r\n    \"surname\": \"Simic\",\r\n    \"phoneNumber\": \"+38166999999\",\r\n    \"postalAddress\": \"Nepoznata adresa bb, Glavna luka, Nedodjija\"\r\n\r\n}",
+							"raw": "{\r\n    \"email\": \"test123@test.rs\",\r\n    \"password\": \"abc123\",\r\n    \"forename\": \"Pera\",\r\n    \"surname\": \"Peric\",\r\n    \"phoneNumber\": \"+381644444444\",\r\n    \"postalAddress\": \"Poznata adresa bb, Sporedna luka, Realost\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1292,6 +1307,14 @@
 								""
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh user token",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -1727,7 +1750,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"articleId\": 2,\r\n    \"quantity\": 2\r\n}",
+							"raw": "{\r\n    \"articleId\": 1,\r\n    \"quantity\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1812,6 +1835,217 @@
 					{
 						"key": "token",
 						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1NjY3NTE4My43NzgsImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI5LjAiLCJpYXQiOjE2NTU0NjU1ODN9.IV8qnFf2DUaUZBjL8vHzPUvokTKvPzdHGGrLxOZLUTE",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get order information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/order/20/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"20",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get order information",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/order/20/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"order",
+										"20",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1088"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"440-bp6WHHmJhTvr1iKfdTg3/BDJzYA\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 28 Jun 2022 14:16:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\"orderId\":20,\"createdAt\":\"2022-06-28T09:57:22.000Z\",\"cartId\":19,\"status\":\"pending\",\"cart\":{\"cartId\":19,\"userId\":1,\"createdAt\":\"2022-06-28T09:57:08.000Z\",\"user\":{\"userId\":1,\"email\":\"test@test.rs\",\"passwordHash\":\"AE127D116FF9AEEFE7242232A01CF31DDA8646EE02DE3DCF6C293DBCD83CD48E78119AB70D544BAA4CD68C419E5C32FABF116E942DBC5B3C139BEEDFB35490EB\",\"forename\":\"Simo\",\"surname\":\"Simic\",\"phoneNumber\":\"+38166999999\",\"postalAddress\":\"Nepoznata adresa bb, Glavna luka, Nedodjija\"},\"cartArticles\":[{\"cartArticleId\":20,\"cartId\":19,\"articleId\":1,\"quantity\":3,\"article\":{\"articleId\":1,\"name\":\"ACME HDD 500GB\",\"categoryId\":5,\"excerpt\":\"Karatak opis\",\"description\":\"Detaljan opis\",\"status\":\"available\",\"isPromoted\":0,\"createdAt\":\"2022-05-11T14:47:40.000Z\",\"category\":{\"categoryId\":5,\"name\":\"Hard diskovi\",\"imagePath\":\"C:/Users/ubipa/OneDrive/Desktop/assets/komp/pc/memory/hdd.jpg\",\"parentCategoryId\":4},\"articlePrices\":[{\"articlePriceId\":1,\"articleId\":1,\"price\":\"45.00\",\"createdAt\":\"2022-05-12T08:04:42.000Z\"},{\"articlePriceId\":2,\"articleId\":1,\"price\":\"43.56\",\"createdAt\":\"2022-05-12T08:05:06.000Z\"}]}}]}}"
+						}
+					]
+				},
+				{
+					"name": "Change order status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newStatus\": \"rejected\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/order/20/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"20",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Change order status",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newStatus\": \"rejected\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/order/20/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"order",
+										"20",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "JSON",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1089"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"441-qvKpgfokqA7KBJMeZS3kCcPbTR4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 28 Jun 2022 14:20:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\"orderId\":20,\"createdAt\":\"2022-06-28T09:57:22.000Z\",\"cartId\":19,\"status\":\"rejected\",\"cart\":{\"cartId\":19,\"userId\":1,\"createdAt\":\"2022-06-28T09:57:08.000Z\",\"user\":{\"userId\":1,\"email\":\"test@test.rs\",\"passwordHash\":\"AE127D116FF9AEEFE7242232A01CF31DDA8646EE02DE3DCF6C293DBCD83CD48E78119AB70D544BAA4CD68C419E5C32FABF116E942DBC5B3C139BEEDFB35490EB\",\"forename\":\"Simo\",\"surname\":\"Simic\",\"phoneNumber\":\"+38166999999\",\"postalAddress\":\"Nepoznata adresa bb, Glavna luka, Nedodjija\"},\"cartArticles\":[{\"cartArticleId\":20,\"cartId\":19,\"articleId\":1,\"quantity\":3,\"article\":{\"articleId\":1,\"name\":\"ACME HDD 500GB\",\"categoryId\":5,\"excerpt\":\"Karatak opis\",\"description\":\"Detaljan opis\",\"status\":\"available\",\"isPromoted\":0,\"createdAt\":\"2022-05-11T14:47:40.000Z\",\"category\":{\"categoryId\":5,\"name\":\"Hard diskovi\",\"imagePath\":\"C:/Users/ubipa/OneDrive/Desktop/assets/komp/pc/memory/hdd.jpg\",\"parentCategoryId\":4},\"articlePrices\":[{\"articlePriceId\":1,\"articleId\":1,\"price\":\"45.00\",\"createdAt\":\"2022-05-12T08:04:42.000Z\"},{\"articlePriceId\":2,\"articleId\":1,\"price\":\"43.56\",\"createdAt\":\"2022-05-12T08:05:06.000Z\"}]}}]}}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlkIjo2LCJpZGVudGl0eSI6ImFkbWluIiwiZXhwIjoxNjU2NTEyMzk0LjgxNCwiaXAiOiI6OjEiLCJ1YSI6IlBvc3RtYW5SdW50aW1lLzcuMjkuMCIsImlhdCI6MTY1NTMwMjc5NH0.W-xuLzcvC0KY26YmPNa4zNRfqa_GcQB3zMllzxHmZBg",
 						"type": "string"
 					}
 				]
