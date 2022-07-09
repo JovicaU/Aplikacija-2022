@@ -65,12 +65,12 @@ CREATE TABLE IF NOT EXISTS `article_feature` (
 
 DELETE FROM `article_feature`;
 INSERT INTO `article_feature` (`article_feature_id`, `article_id`, `feature_id`, `value`) VALUES
-	(1, 1, 1, '512GB\r\n'),
-	(2, 1, 2, ' SATA 3.0'),
+	(1, 1, 1, '512GB'),
+	(2, 1, 2, 'SATA 3.0'),
 	(3, 1, 3, 'SSD'),
 	(6, 2, 1, '1024GB'),
 	(7, 2, 2, 'SATA 3.0'),
-	(8, 3, 10, 'ACME\r\n'),
+	(8, 3, 10, 'ACME'),
 	(9, 3, 11, '15.6"'),
 	(10, 3, 12, 'Bez OS');
 
@@ -101,12 +101,29 @@ CREATE TABLE IF NOT EXISTS `cart` (
   PRIMARY KEY (`cart_id`),
   KEY `fk_cart_cart_id` (`user_id`),
   CONSTRAINT `fk_cart_cart_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 DELETE FROM `cart`;
 INSERT INTO `cart` (`cart_id`, `user_id`, `created_at`) VALUES
 	(1, 1, '2022-06-18 10:12:17'),
-	(2, 1, '2022-06-18 13:49:38');
+	(2, 1, '2022-06-18 13:49:38'),
+	(3, 1, '2022-06-27 10:39:06'),
+	(4, 1, '2022-06-27 10:51:06'),
+	(5, 1, '2022-06-27 10:53:17'),
+	(6, 1, '2022-06-27 13:31:54'),
+	(7, 1, '2022-06-27 13:34:26'),
+	(8, 1, '2022-06-27 13:38:56'),
+	(9, 1, '2022-06-27 14:10:20'),
+	(10, 1, '2022-06-27 14:46:17'),
+	(11, 1, '2022-06-28 07:56:42'),
+	(12, 1, '2022-06-28 07:59:08'),
+	(13, 1, '2022-06-28 08:00:37'),
+	(14, 1, '2022-06-28 08:02:55'),
+	(15, 1, '2022-06-28 08:06:40'),
+	(16, 1, '2022-06-28 08:08:39'),
+	(17, 1, '2022-06-28 08:20:56'),
+	(18, 1, '2022-06-28 08:43:01'),
+	(19, 1, '2022-06-28 09:57:08');
 
 DROP TABLE IF EXISTS `cart_article`;
 CREATE TABLE IF NOT EXISTS `cart_article` (
@@ -119,12 +136,29 @@ CREATE TABLE IF NOT EXISTS `cart_article` (
   KEY `fk_cart_article_article_id` (`article_id`),
   CONSTRAINT `fk_cart_article_article_id` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_cart_article_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 DELETE FROM `cart_article`;
 INSERT INTO `cart_article` (`cart_article_id`, `cart_id`, `article_id`, `quantity`) VALUES
 	(1, 1, 1, 3),
-	(3, 2, 2, 2);
+	(3, 2, 2, 2),
+	(4, 3, 1, 3),
+	(5, 4, 2, 3),
+	(6, 5, 1, 4),
+	(7, 6, 2, 3),
+	(8, 7, 1, 3),
+	(9, 8, 1, 3),
+	(10, 9, 1, 3),
+	(11, 10, 1, 3),
+	(12, 11, 1, 3),
+	(13, 12, 1, 3),
+	(14, 13, 1, 3),
+	(15, 14, 1, 3),
+	(16, 15, 1, 3),
+	(17, 16, 1, 3),
+	(18, 17, 1, 3),
+	(19, 18, 1, 3),
+	(20, 19, 1, 3);
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
@@ -179,12 +213,29 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`order_id`),
   UNIQUE KEY `uq_order_cart_id` (`cart_id`),
   CONSTRAINT `fk_order_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 DELETE FROM `order`;
 INSERT INTO `order` (`order_id`, `created_at`, `cart_id`, `status`) VALUES
 	(1, '2022-06-18 13:48:48', 1, 'shipped'),
-	(3, '2022-06-21 08:02:01', 2, 'pending');
+	(3, '2022-06-21 08:02:01', 2, 'pending'),
+	(4, '2022-06-27 10:40:26', 3, 'pending'),
+	(5, '2022-06-27 10:51:44', 4, 'pending'),
+	(6, '2022-06-27 10:53:22', 5, 'pending'),
+	(7, '2022-06-27 13:32:08', 6, 'pending'),
+	(8, '2022-06-27 13:34:32', 7, 'pending'),
+	(9, '2022-06-27 13:39:02', 8, 'pending'),
+	(10, '2022-06-27 14:10:28', 9, 'pending'),
+	(11, '2022-06-27 14:46:23', 10, 'pending'),
+	(12, '2022-06-28 07:56:48', 11, 'pending'),
+	(13, '2022-06-28 07:59:15', 12, 'pending'),
+	(14, '2022-06-28 08:00:43', 13, 'pending'),
+	(15, '2022-06-28 08:03:00', 14, 'pending'),
+	(16, '2022-06-28 08:06:46', 15, 'pending'),
+	(17, '2022-06-28 08:08:46', 16, 'pending'),
+	(18, '2022-06-28 08:21:02', 17, 'pending'),
+	(19, '2022-06-28 08:43:09', 18, 'pending'),
+	(20, '2022-06-28 09:57:22', 19, 'rejected');
 
 DROP TABLE IF EXISTS `photo`;
 CREATE TABLE IF NOT EXISTS `photo` (
@@ -221,6 +272,25 @@ DELETE FROM `user`;
 INSERT INTO `user` (`user_id`, `email`, `password_hash`, `forename`, `surname`, `phone_number`, `postal_address`) VALUES
 	(1, 'test@test.rs', 'AE127D116FF9AEEFE7242232A01CF31DDA8646EE02DE3DCF6C293DBCD83CD48E78119AB70D544BAA4CD68C419E5C32FABF116E942DBC5B3C139BEEDFB35490EB', 'Simo', 'Simic', '+38166999999', 'Nepoznata adresa bb, Glavna luka, Nedodjija'),
 	(3, 'test123@test.rs', 'C70B5DD9EBFB6F51D09D4132B7170C9D20750A7852F00680F65658F0310E810056E6763C34C9A00B0E940076F54495C169FC2302CCEB312039271C43469507DC', 'Pera', 'Peric', '+381644444444', 'Poznata adresa bb, Sporedna luka, Realost');
+
+DROP TABLE IF EXISTS `user_token`;
+CREATE TABLE IF NOT EXISTS `user_token` (
+  `user_token_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `token` text COLLATE utf8_unicode_ci NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `is_valid` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`user_token_id`),
+  KEY `fk_user_token_user_id` (`user_id`),
+  CONSTRAINT `fk_user_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+DELETE FROM `user_token`;
+INSERT INTO `user_token` (`user_token_id`, `user_id`, `created_at`, `token`, `expires_at`, `is_valid`) VALUES
+	(1, 1, '2022-07-01 13:37:00', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1NjY4MjkyMC4yMzgsImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI5LjAiLCJpYXQiOjE2NTY2ODI2MjB9.hejaXSwiA_-CvFVwzU-opksrfi7vEW1ZdQMcoFWQcYA', '2022-07-01 13:42:00', 1),
+	(2, 1, '2022-07-01 16:07:22', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1NjY5MTk0Mi4wNDgsImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI5LjAiLCJpYXQiOjE2NTY2OTE2NDJ9.OlVWDbIhDGF_ggU_tdvgrrAe2F9odiCmZGMh6nspQ9U', '2022-07-01 16:12:22', 0),
+	(3, 1, '2022-07-01 16:14:03', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlkIjoxLCJpZGVudGl0eSI6InRlc3RAdGVzdC5ycyIsImV4cCI6MTY1NjY5MjM0My42ODksImlwIjoiOjoxIiwidWEiOiJQb3N0bWFuUnVudGltZS83LjI5LjAiLCJpYXQiOjE2NTY2OTIwNDN9.LbyFzT1EMArNa4WAj_seG0lKQBatzWdAfTxfXrui4_k', '2022-07-01 16:19:03', 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
